@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/verification.dart';
+import 'package:toast/toast.dart';
 //import 'package:image_picker_modern/image_picker_modern.dart';
 import 'dart:io';
 import 'dart:developer' as dev;
@@ -24,7 +25,8 @@ class _myRegisterPageState extends State<myRegisterPage> {
   final lnController = TextEditingController();
   final emController = TextEditingController();
   final pwController = TextEditingController();
-  bool success = false;
+  int statusCode;
+  var errorMsg;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   File _image;
   @override
@@ -90,9 +92,12 @@ class _myRegisterPageState extends State<myRegisterPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          register();
-          if(success)
+        onPressed: () async{
+          await register();
+          if(statusCode!=200){
+            Toast.show(errorMsg, context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+          }
+          else
             {
               Navigator.push(
                 context,
@@ -168,9 +173,10 @@ class _myRegisterPageState extends State<myRegisterPage> {
     jsonEncode({'firstName':fnController.text, 'lastName':lnController.text, 'email': emController.text, 'password': pwController.text});
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"}, body: msg);
-    print(msg);
-    if(response.statusCode == 200)
-      success = true;
+    var body = json.decode(response.body);
+    statusCode = response.statusCode;
+    if(response.statusCode != 200)
+      errorMsg = body["error"];
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
   }
