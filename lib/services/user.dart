@@ -15,9 +15,10 @@ class Profile {
   int stepCount;
   bool isloggedIn;
   var photo;
+  var photoURL;
   String team;
 
-  Profile({this.name, this.stepCount, this.email, this.photo, this.team});
+  Profile({this.name, this.stepCount, this.email, this.photo, this.team,this.photoURL});
 
   factory Profile.fromMap(Map data) {
     data = data ?? {};
@@ -26,6 +27,7 @@ class Profile {
         stepCount: data['stepCount'] ?? 0,
         email: data['email'] ?? '',
         photo: data['photo'] ?? '',
+        photoURL: data['photoURL'] ?? '',
         team: data['team'] ?? '');
   }
 

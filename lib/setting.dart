@@ -17,6 +17,7 @@ class MapScreenState extends State<SettingsPage>
   var imageBytes;
   Uint8List bytes;
   Uint8List image64;
+  var socialMediaImage;
 
   @override
   void initState() {
@@ -37,7 +38,11 @@ class MapScreenState extends State<SettingsPage>
   Widget build(BuildContext context) {
     final userService = Provider.of<UserService>(context);
     var avatar = userService.user.photo;
-    if (avatar != '') setAvatar(avatar);
+    if (avatar != '')
+      setAvatar(avatar);
+    else{
+       socialMediaImage = new NetworkImage(userService.user.photoURL);
+    }
     return new Scaffold(
         body: new Container(
       color: Colors.white,
@@ -80,6 +85,18 @@ class MapScreenState extends State<SettingsPage>
                                       fit: BoxFit.cover,
                                     ),
                                   ))
+                            else if(socialMediaImage != null)
+                              new Container(
+                              //empty image
+                              width: 140.0,
+                              height: 140.0,
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  image: socialMediaImage,
+                                  fit: BoxFit.cover,
+                                ),
+                              ))
                             else
                               new Container(
                                   //empty image

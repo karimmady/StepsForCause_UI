@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Steps4Cause</string>
+    <string name="facebook_app_id">136939984134552</string>
+    <string name="fb_login_protocol_scheme">fb136939984134552</string>
+</resources>
